@@ -1,0 +1,52 @@
+
+import bpy
+import math
+from math import sin, cos, pi
+
+from typing import List
+
+
+
+frames_per_revolution = 200.0
+step_size = 2*math.pi / frames_per_revolution
+
+    
+
+
+def add_cube(
+	size :float=1.0,
+	location : List[float] = [0.0,0.0,0.0],
+	rotation : List[float]= [0.0,0.0,0.0],
+	scale : List[float] = [1.0,1.0,1.0])-> None:
+	bpy.ops.mesh.primitive_cube_add(size=size, location=location, scale=scale)
+
+
+
+
+def main():
+    for i in range(11):
+        for j in range(8):
+        	add_cube(location=[i*2.2-4,j*1.5,0.0])
+        	new_cube = bpy.context.object
+        	new_cube_name="NewCube"
+        	
+        	new_cube.rotation_euler=[0,0,0]
+        	
+        	new_cube.keyframe_insert(data_path='rotation_euler', frame=1)
+
+        	new_cube.rotation_euler=[0,math.radians(360)*i,math.radians(360)*j]
+        	
+        	new_cube.keyframe_insert(data_path='rotation_euler', frame=frames_per_revolution)
+        	
+        	
+        	
+        	new_cube.scale=[1,1,0]
+        	
+        	new_cube.keyframe_insert(data_path='scale', frame=1)
+
+        	new_cube.scale=[1,1,1]
+        	
+        	new_cube.keyframe_insert(data_path='scale', frame=frames_per_revolution)
+    	
+
+main()   
